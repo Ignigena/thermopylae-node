@@ -1,0 +1,26 @@
+<script type="text/template" name="home">
+  <div class="text-center">
+    <h2 class="text-primary" style="margin-top:25%;">Ready? Let's go...</h2>
+    <div class="form-group has-feedback searchfield">
+      <input type="text" class="form-control text-center input-lg" id="search" placeholder="Customer docroot, server or domain" length="20" style="font-size:24px;font-weight:100;" />
+      <i class="fa fa-level-down text-muted form-control-feedback" style="font-size:20px;top:8px;display:none;"></i>
+    </div>
+    <p class="text-muted searching-for"></p>
+  </div>
+</script>
+
+<script type="text/template" name="dashboard">
+  <ul class="nav nav-pills nav-justified">
+    <li class="active"><a href="#">Dashboard</a></li>
+    <li><a href="#">Contacts</a></li>
+    <li><a href="#">Tickets</a></li>
+  </ul>
+  <hr />
+  <div class="text-center" style="margin-top:120px;">
+    <i class="fa fa-refresh fa-spin text-muted" style="font-size:5em;"></i>
+    <p class="text-muted" style="padding-top:20px;">Loading customer...</p>
+  </p>
+</script>
+
+<small class="text-muted version"><%= version %></small>
+<script src="frontend.js"></script>

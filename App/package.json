@@ -1,0 +1,1 @@
+{"name":"Thermopylae","node-main":"app.js","main":"index.html","version":"1.0.0","window":{"title":"Thermopylae","toolbar":true,"frame":true,"width":768,"height":520,"position":"mouse","resizable":false},"dependencies":{"express":"^4.3.1","ejs":"^1.0.0","express-ejs-layouts":"^1.1.0"}}
