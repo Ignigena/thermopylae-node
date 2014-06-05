@@ -15,6 +15,7 @@
 
   $(function() {
     window.app.init();
+    window.nwDispatcher.requireNwGui();
   });
 
   app.Router = Backbone.Router.extend({
@@ -216,11 +217,27 @@
 
     className: 'contacts',
 
+    initialize: function() {  
+      this.render().afterRender();
+    },
+
     render: function () {
       var template = _.template($('script[name=contacts]').html());
       this.$el.html(template());
       return app.Extensions.View.prototype.render.apply(this, arguments);
-    }
+    },
+
+    afterRender: function() {
+      $.get('/contacts?docroot=' + app.instance.customerDocroot, function(data) {
+        var data = $.parseJSON(data);
+        data['Contacts'].forEach(function (contact) {
+          var contactsRow = '<tr><td>' + contact.name + '</td><td>' + contact.username + '</td><td>' + contact.email + '</td><td>' + contact.phone + '</td><td><a onclick="javascript:window.nwDispatcher.nwGui.Shell.openExternal(\'https://insight.acquia.com/support/tickets/new?user=' + contact.username + '\')" type="button" class="btn btn-success">File Ticket</a></td></tr>';
+          $('div.panel table.contacts tbody').append(contactsRow);
+        });
+        $('div.loading').fadeOut();
+        $('div.panel.loaded').fadeIn();
+      });
+    },
 
   });
 

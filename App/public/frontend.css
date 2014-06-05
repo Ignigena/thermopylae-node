@@ -9,6 +9,15 @@
   opacity: 0;
 }
 
+.panel {
+  position: absolute;
+  top: 86px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 25px;
+}
+
 .page.is-visible {
   opacity: 1;
 }
