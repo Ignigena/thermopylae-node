@@ -173,10 +173,10 @@
       var view = new app.Views.Dashboard();
 
       if (app.instance.currentPage.searchMode == 'docroot') {
-        view.docroot = app.instance.currentPage.searchString;
+        app.instance.customerDocroot = app.instance.currentPage.searchString;
       } else if (app.instance.currentPage.searchMode == 'domain') {
         data = data.split('\n')[1].split('.')[0].trim();
-        view.docroot = data;
+        app.instance.customerDocroot = data;
       } else if (app.instance.currentPage.searchMode == 'server') {
         // @todo: Display dropdown of docroots.
         $('.searching-for').removeClass('text-muted').addClass('text-warning').text('Feature not implemented. Sorry!');
@@ -197,7 +197,6 @@
   app.Views.Dashboard = app.Extensions.View.extend({
 
     className: 'dashboard',
-    docroot: '',
 
     render: function () {
       var template = _.template($('script[name=dashboard]').html());
