@@ -21,6 +21,7 @@
 
     routes: {
       'dashboard': 'dashboard',
+      'contacts': 'contacts',
       '': 'home'
     },
 
@@ -31,6 +32,11 @@
 
     dashboard: function () {
       var view = new app.Views.Dashboard();
+      app.instance.goto(view);
+    },
+
+    contacts: function () {
+      var view = new app.Views.Contacts();
       app.instance.goto(view);
     }
 
@@ -200,6 +206,18 @@
 
     render: function () {
       var template = _.template($('script[name=dashboard]').html());
+      this.$el.html(template());
+      return app.Extensions.View.prototype.render.apply(this, arguments);
+    }
+
+  });
+
+  app.Views.Contacts = app.Extensions.View.extend({
+
+    className: 'contacts',
+
+    render: function () {
+      var template = _.template($('script[name=contacts]').html());
       this.$el.html(template());
       return app.Extensions.View.prototype.render.apply(this, arguments);
     }

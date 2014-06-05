@@ -11,15 +11,28 @@
 
 <script type="text/template" name="dashboard">
   <ul class="nav nav-pills nav-justified">
-    <li class="active"><a href="#">Dashboard</a></li>
-    <li><a href="#">Contacts</a></li>
-    <li><a href="#">Tickets</a></li>
+    <li class="active"><a href="#dashboard">Dashboard</a></li>
+    <li><a href="#contacts">Contacts</a></li>
+    <li><a href="#tickets">Tickets</a></li>
   </ul>
   <hr />
   <div class="text-center" style="margin-top:120px;">
     <i class="fa fa-refresh fa-spin text-muted" style="font-size:5em;"></i>
     <p class="text-muted" style="padding-top:20px;">Loading customer...</p>
-  </p>
+  </div>
+</script>
+
+<script type="text/template" name="contacts">
+  <ul class="nav nav-pills nav-justified">
+    <li><a href="#dashboard">Dashboard</a></li>
+    <li class="active"><a href="#contacts">Contacts</a></li>
+    <li><a href="#tickets">Tickets</a></li>
+  </ul>
+  <hr />
+  <div class="text-center" style="margin-top:120px;">
+    <i class="fa fa-refresh fa-spin text-muted" style="font-size:5em;"></i>
+    <p class="text-muted" style="padding-top:20px;">Loading contacts...</p>
+  </div>
 </script>
 
 <small class="text-muted version"><%= version %></small>
