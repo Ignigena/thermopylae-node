@@ -1,4 +1,6 @@
+/*global app, Backbone, $, _*/
 (function () {
+  "use strict";
 
   window.app = {
     Views: {},
@@ -13,7 +15,7 @@
     }
   };
 
-  $(function() {
+  $(function () {
     window.app.init();
     window.nwDispatcher.requireNwGui();
   });
@@ -49,7 +51,7 @@
       this.router = new app.Router();
     },
 
-    render: function(options) {
+    render: function (options) {
 
       options = options || {};
 
@@ -64,16 +66,15 @@
     transitionIn: function (callback) {
 
       var view = this,
-          delay
-
-      var transitionIn = function () {
-        view.$el.addClass('is-visible');
-        view.$el.one('transitionend', function () {
-          if (_.isFunction(callback)) {
-            callback();
-          }
-        })
-      };
+        delay,
+        transitionIn = function () {
+          view.$el.addClass('is-visible');
+          view.$el.one('transitionend', function () {
+            if (_.isFunction(callback)) {
+              callback();
+            }
+          });
+        };
 
       _.delay(transitionIn, 20);
 
@@ -87,7 +88,7 @@
       view.$el.one('transitionend', function () {
         if (_.isFunction(callback)) {
           callback();
-        };
+        }
       });
 
     }
@@ -100,8 +101,8 @@
 
     goto: function (view) {
 
-      var previous = this.currentPage || null;
-      var next = view;
+      var previous = this.currentPage || null,
+        next = view;
 
       if (previous) {
         previous.transitionOut(function () {
@@ -110,7 +111,7 @@
       }
 
       next.render({ page: true });
-      this.$el.append( next.$el );
+      this.$el.append(next.$el);
       next.transitionIn();
       this.currentPage = next;
 
@@ -132,8 +133,8 @@
     searchString: '',
     searchMode: 'docroot',
 
-    updateForm: function(e) {
-      if (e.keyCode == 13) {
+    updateForm: function (e) {
+      if (e.keyCode === 13) {
         this.performSearch();
         return;
       }
@@ -160,11 +161,11 @@
         this.searchMode = 'docroot';
       }
     },
-    performSearch: function() {
+    performSearch: function () {
       $('.form-control-feedback').removeClass('fa-level-down').addClass('fa-circle-o-notch fa-spin');
       $.get('/find?' + this.searchMode + '=' + this.searchString, this.validateSearch);
     },
-    validateSearch: function(data) {
+    validateSearch: function (data) {
       if (!data) {
         $('.searchfield').removeClass('has-success').addClass('has-error');
         $('.searching-for').removeClass('text-muted').addClass('text-warning').text('Sorry! Unable to locate a hosted customer.');
@@ -176,15 +177,15 @@
         app.instance.currentPage.goToDashboard(data);
       }
     },
-    goToDashboard: function(data) {
+    goToDashboard: function (data) {
       var view = new app.Views.Dashboard();
 
-      if (app.instance.currentPage.searchMode == 'docroot') {
+      if (app.instance.currentPage.searchMode === 'docroot') {
         app.instance.customerDocroot = app.instance.currentPage.searchString;
-      } else if (app.instance.currentPage.searchMode == 'domain') {
+      } else if (app.instance.currentPage.searchMode === 'domain') {
         data = data.split('\n')[1].split('.')[0].trim();
         app.instance.customerDocroot = data;
-      } else if (app.instance.currentPage.searchMode == 'server') {
+      } else if (app.instance.currentPage.searchMode === 'server') {
         // @todo: Display dropdown of docroots.
         $('.searching-for').removeClass('text-muted').addClass('text-warning').text('Feature not implemented. Sorry!');
         return;
@@ -217,7 +218,7 @@
 
     className: 'contacts',
 
-    initialize: function() {  
+    initialize: function() {
       this.render().afterRender();
     },
 
@@ -227,17 +228,17 @@
       return app.Extensions.View.prototype.render.apply(this, arguments);
     },
 
-    afterRender: function() {
-      $.get('/contacts?docroot=' + app.instance.customerDocroot, function(data) {
-        var data = $.parseJSON(data);
-        data['Contacts'].forEach(function (contact) {
+    afterRender: function () {
+      $.get('/contacts?docroot=' + app.instance.customerDocroot, function (data) {
+        data = $.parseJSON(data);
+        data.Contacts.forEach(function (contact) {
           var contactsRow = '<tr><td>' + contact.name + '</td><td>' + contact.username + '</td><td>' + contact.email + '</td><td>' + contact.phone + '</td><td><a onclick="javascript:window.nwDispatcher.nwGui.Shell.openExternal(\'https://insight.acquia.com/support/tickets/new?user=' + contact.username + '\')" type="button" class="btn btn-success">File Ticket</a></td></tr>';
           $('div.panel table.contacts tbody').append(contactsRow);
         });
         $('div.loading').fadeOut();
         $('div.panel.loaded').fadeIn();
       });
-    },
+    }
 
   });
 
