@@ -218,6 +218,16 @@
 
     className: 'contacts',
 
+    contactRow: function(user, badge) {
+      var row = '<tr><td>' + user.name;
+
+      if (badge) row = row.concat(' <span class="badge">' + badge + '</span>');
+
+      row = row.concat('</td><td>' + user.email + '</td><td>' + user.phone + '</td><td><a onclick="javascript:window.nwDispatcher.nwGui.Shell.openExternal(\'https://insight.acquia.com/support/tickets/new?user=' + user.username + '\')" type="button" class="btn btn-success">File Ticket</a></td></tr>');
+      
+      return row;
+    },
+
     initialize: function() {
       this.render().afterRender();
     },
@@ -231,10 +241,29 @@
     afterRender: function () {
       $.get('/contacts?docroot=' + app.instance.customerDocroot, function (data) {
         data = $.parseJSON(data);
-        data.Contacts.forEach(function (contact) {
-          var contactsRow = '<tr><td>' + contact.name + '</td><td>' + contact.username + '</td><td>' + contact.email + '</td><td>' + contact.phone + '</td><td><a onclick="javascript:window.nwDispatcher.nwGui.Shell.openExternal(\'https://insight.acquia.com/support/tickets/new?user=' + contact.username + '\')" type="button" class="btn btn-success">File Ticket</a></td></tr>';
-          $('div.panel table.contacts tbody').append(contactsRow);
-        });
+
+        if (data.Contacts) {
+          data.Contacts.forEach(function (contact) {
+            $('div.panel table.contacts tbody').append(app.instance.currentPage.contactRow(contact));
+          });
+        } else {
+          if (data.Primary) {
+            data.Primary.forEach(function (contact) {
+              $('div.panel table.contacts tbody').append(app.instance.currentPage.contactRow(contact, 'P'));
+            });
+          }
+          if (data.Technical) {
+            data.Technical.forEach(function (contact) {
+              $('div.panel table.contacts tbody').append(app.instance.currentPage.contactRow(contact, 'T'));
+            });
+          }
+          if (data.Billing) {
+            data.Billing.forEach(function (contact) {
+              $('div.panel table.contacts tbody').append(app.instance.currentPage.contactRow(contact, 'B'));
+            });
+          }
+        }
+
         $('div.loading').fadeOut();
         $('div.panel.loaded').fadeIn();
       });
