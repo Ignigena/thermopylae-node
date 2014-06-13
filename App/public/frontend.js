@@ -223,9 +223,11 @@
 
       if (badge) row = row.concat(' <span class="badge">' + badge + '</span>');
 
-      row = row.concat('</td><td>' + user.email + '</td><td>' + user.phone + '</td><td><a onclick="javascript:window.nwDispatcher.nwGui.Shell.openExternal(\'https://insight.acquia.com/support/tickets/new?user=' + user.username + '\')" type="button" class="btn btn-success">File Ticket</a></td></tr>');
+      row = row.concat('</td><td>' + user.email + '</td><td>' + user.phone + '</td><td class="text-right">');
+      row = row.concat('<a onclick="javascript:window.nwDispatcher.nwGui.Shell.openExternal(\'https://insight.acquia.com/support/tickets/new?user=' + user.username + '\')" type="button" class="btn btn-sm btn-success">File Ticket</a>');
+      row = row.concat('</td></tr>');
       
-      return row;
+      $('div.panel table.contacts tbody').append(row);
     },
 
     initialize: function() {
@@ -244,22 +246,22 @@
 
         if (data.Contacts) {
           data.Contacts.forEach(function (contact) {
-            $('div.panel table.contacts tbody').append(app.instance.currentPage.contactRow(contact));
+            app.instance.currentPage.contactRow(contact);
           });
         } else {
           if (data.Primary) {
             data.Primary.forEach(function (contact) {
-              $('div.panel table.contacts tbody').append(app.instance.currentPage.contactRow(contact, 'P'));
+              app.instance.currentPage.contactRow(contact, 'P');
             });
           }
           if (data.Technical) {
             data.Technical.forEach(function (contact) {
-              $('div.panel table.contacts tbody').append(app.instance.currentPage.contactRow(contact, 'T'));
+              app.instance.currentPage.contactRow(contact, 'T');
             });
           }
           if (data.Billing) {
             data.Billing.forEach(function (contact) {
-              $('div.panel table.contacts tbody').append(app.instance.currentPage.contactRow(contact, 'B'));
+              app.instance.currentPage.contactRow(contact, 'B');
             });
           }
         }
